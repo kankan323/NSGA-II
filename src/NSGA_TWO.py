@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 class NSGA_II:
-    max_evo = 200
+    max_evo = 500
     pareto_f = []
     Pop = []
     Qt = []
@@ -106,29 +106,28 @@ class NSGA_II:
         # Pt，Qt父子代种群集,ndarray
         gen = 0
         while gen < self.max_evo:
+            # if gen==self.max_evo-2:
+            #     print(self.pareto_f)
             gen += 1
             self.Rt = []
             self.Qt = self.populations.next_Pop(self.Pop)
-            self.append(self.Pop, self.Rt )
-            self.append(self.Qt, self.Rt )
+            self.append(self.Pop, self.Rt)
+            self.append(self.Qt, self.Rt)
             # 找到前沿层F1,F2,....
-            F = self.fast_nodominate_sort(self.Rt )
+            F = self.fast_nodominate_sort(self.Rt)
             self.pareto_f = []
             # 保留pareto前沿
-            self.inv_append(F[0], self.Rt , self.pareto_f)
+            self.inv_append(F[0], self.Rt, self.pareto_f)
             print('%s th pareto len %s:' % (gen, len(F[0])))
             # 保留前沿层最好的popsize个
             Pt_next = []
             i = 0
             while (len(Pt_next) + len(F[i])) <= self.populations.pop_size:
-                Fi = []
-                self.inv_append(F[i], self.Rt , Fi)
-                self.crowding_dist(Fi)
-                for ip in Fi:
-                    Pt_next.append(ip)
+                self.inv_append(F[i], self.Rt, Pt_next)
                 i += 1
+            # self.crowding_dist(Fi)
             Fi = []
-            self.inv_append(F[i], self.Rt , Fi)
+            self.inv_append(F[i], self.Rt, Fi)
             for ip in Fi:
                 Pt_next.append(ip)
             Pt_next = Pt_next[0:self.populations.pop_size]
@@ -154,7 +153,7 @@ class NSGA_II:
             f2_data.append(a.F_value[1])
         plt.xlabel('Function 1', fontsize=15)
         plt.ylabel('Function 2', fontsize=15)
-        plt.title('ZDT1')
+        plt.title('ZDT4')
         # plt.xlim(min(pf1_data), max(pf1_data))
         # plt.ylim(min(pf2_data), max(pf2_data))
         plt.scatter(f1_data, f2_data, c='black', s=5)

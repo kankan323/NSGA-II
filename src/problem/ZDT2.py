@@ -5,7 +5,7 @@
 
 import numpy as np
 
-dimention = 30
+dimention = 4
 bound = [0, 1]
 
 

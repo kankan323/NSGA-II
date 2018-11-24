@@ -28,9 +28,9 @@ class Population:
             cp.F_value[:] = p.F_value[:]
             n_P.append(cp)
         # 产生下一代
+        select(n_P)
         for i in range(p_size):
             j = np.random.randint(0, p_size, size=1)[0]
-            n_P[j] = cross(n_P[i], n_P[j])
+            cross(n_P[i], n_P[j])
             n_P[j] = mutate(n_P[j])
-            select(n_P)
         return n_P
